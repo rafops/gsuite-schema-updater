@@ -16,7 +16,7 @@ Click DOWNLOAD CLIENT CONFIGURATION
 
 Copy `credentials.json` to this folder
 
-Create and configure `config.json' from `config.json.example`
+Create and configure `config.json` from `config.json.example`
 
 Run:
 
