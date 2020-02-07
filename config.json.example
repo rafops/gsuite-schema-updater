@@ -1,0 +1,10 @@
+{
+    "customAttr": {
+        "category": "SSO",
+        "name":     "role",
+        "value":    "thisisnotarole"
+    },
+    "targetUsers": [
+        "notauser@example.com"
+    ]
+}

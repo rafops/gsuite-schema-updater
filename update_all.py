@@ -14,8 +14,13 @@ SCOPES = ['https://www.googleapis.com/auth/admin.directory.user']
 def main():
     # Configuration
     customAttr = {}
+    targetUsers = []
     with open('config.json') as f:
-      customAttr = json.load(f)
+        config = json.load(f)
+        if 'customAttr' in config:
+            customAttr = config['customAttr']
+        if 'targetUsers' in config:
+            targetUsers = config['targetUsers']
 
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
@@ -48,13 +53,19 @@ def main():
     else:
         for user in users:
             print('=============================================')
-            print(u'{0} ({1})'.format(user['primaryEmail'],
-                user['name']['fullName']))
-            userKey = user['primaryEmail']
+            userEmail = user['primaryEmail']
+
+            # Skip if not a target
+            if userEmail not in targetUsers:
+                print(u'skipping {0} ({1})'.format(user['primaryEmail'], user['name']['fullName']))
+                continue
+
+            print(u'updating {0} ({1})'.format(user['primaryEmail'], user['name']['fullName']))
+
             customSchemas = {}
             if 'customSchemas' in user:
                 customSchemas = user['customSchemas']
-                print('customSchema before:')
+                print('before:')
                 pprint(user['customSchemas'])
 
             category = {}
@@ -63,10 +74,10 @@ def main():
             category[customAttr['name']] = [{'type': 'work', 'value': customAttr['value']}]
             customSchemas[customAttr['category']] = category
             user['customSchemas'] = customSchemas
-            print('customSchema after:')
+            print('after:')
             pprint(user['customSchemas'])
 
-            service.users().patch(userKey=userKey, body=user).execute()
+            service.users().patch(userKey=userEmail, body=user).execute()
 
 
 if __name__ == '__main__':

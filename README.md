@@ -1,4 +1,4 @@
-# gsuite
+# G Suite customSchemas mass update
 
 Install pre-requisites:
 
@@ -16,7 +16,7 @@ Click DOWNLOAD CLIENT CONFIGURATION
 
 Copy `credentials.json` to this folder
 
-Update `config.json' accordingly
+Create and configure `config.json' from `config.json.example`
 
 Run:
 

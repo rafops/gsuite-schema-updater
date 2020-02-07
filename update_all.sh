@@ -15,7 +15,7 @@ else
 
 4. Copy credentials.json to this folder
 
-5. Update config.json accordingly
+5. Create and configure `config.json' from `config.json.example`
 
 6. Run ./update_all.sh
 
