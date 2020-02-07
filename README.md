@@ -1,4 +1,4 @@
-# G Suite customSchemas mass update
+# G Suite customSchemas mass updater
 
 Install pre-requisites:
 
