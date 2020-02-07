@@ -12,11 +12,13 @@ https://developers.google.com/admin-sdk/directory/v1/quickstart/python
 
 Login as G Suite administrator
 
-DOWNLOAD CLIENT CONFIGURATION
+Click DOWNLOAD CLIENT CONFIGURATION
 
 Copy `credentials.json` to this folder
 
-Run the update script:
+Update `config.json' accordingly
+
+Run:
 
 ```bash
 ./update_all.sh

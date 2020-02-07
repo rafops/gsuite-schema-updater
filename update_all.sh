@@ -5,15 +5,19 @@ if [ -f "credentials.json" ] ; then
 else
   cat <<EOS
 
-Open the following web page and click “Enable the Directory API”:
+1. Open the following web page and click “Enable the Directory API”:
 
-https://developers.google.com/admin-sdk/directory/v1/quickstart/python
+   https://developers.google.com/admin-sdk/directory/v1/quickstart/python
 
-Login as G Suite administrator
+2. Login as G Suite administrator
 
-DOWNLOAD CLIENT CONFIGURATION
+3. Click DOWNLOAD CLIENT CONFIGURATION
 
-Copy credentials.json to this folder
+4. Copy credentials.json to this folder
+
+5. Update config.json accordingly
+
+6. Run ./update_all.sh
 
 EOS
 fi
