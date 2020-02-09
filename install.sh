@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ -n "$(uname -a | grep "^Linux ubuntu")" ] ; then
+  sudo apt-get install docker-ce docker-ce-cli containerd.io
+  ./build.sh
+  exit 0
+fi
+
 if [ -z "$(which python3)" ] ; then
 
   if [ -z "$(which brew)" ] ; then

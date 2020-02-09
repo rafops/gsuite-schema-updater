@@ -3,7 +3,7 @@
 Install pre-requisites:
 
 ```bash
-./install_pre_requisites.sh
+./install.sh
 ```
 
 Open the following web page and click “Enable the Directory API”: 
@@ -21,5 +21,5 @@ Create and configure `config.json` from `config.json.example`
 Run:
 
 ```bash
-./update_all.sh
+./run.sh
 ```

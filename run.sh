@@ -26,8 +26,9 @@ EOS
   exit 1
 fi
 
-if [ -n "$(which docker)" ] && [ -n "$(docker image ls gsuite-schema-updater -q)" ] ; then
-  docker run -it --rm -v "$(pwd)/:/root/workdir/" gsuite-schema-updater /root/workdir/update_all.sh
+
+if [ -n "$(uname -a | grep "^Linux ubuntu")" ] ; then
+  docker run -it --rm -v "$(pwd)/:/root/workdir/" gsuite-schema-updater /root/workdir/run.sh
 elif [ -n "$(which python3)" ] ; then
   python3 update_all.py
 else
