@@ -26,4 +26,11 @@ EOS
   exit 1
 fi
 
-python3 update_all.py
+if [ -n "$(which docker)" ] && [ -n "$(docker image ls gsuite-schema-updater -q)" ] ; then
+  docker run -it --rm -v "$(pwd)/:/root/workdir/" gsuite-schema-updater /root/workdir/update_all.sh
+elif [ -n "$(which python3)" ] ; then
+  python3 update_all.py
+else
+  echo "python3 not found. Please check README.md"
+  exit 1
+fi
