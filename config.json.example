@@ -1,9 +1,11 @@
 {
     "adminUser": "notanadmin@example.com",
-    "customAttr": {
-        "category": "SSO",
-        "name":     "role",
-        "value":    "thisisnotarole"
+    "schemas": {
+        "SSO": {
+            "role": [
+                {"type": "work", "value": "thisisnotarole"}
+            ]
+        }
     },
     "targetUsers": [
         "notauser@example.com"

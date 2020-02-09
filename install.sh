@@ -1,14 +1,25 @@
 #!/bin/bash
 
+# Ubuntu
 if [ -n "$(uname -a | grep "^Linux ubuntu")" ] ; then
-  sudo apt-get install docker-ce docker-ce-cli containerd.io
+  if [ -z "$(command -v docker)" ] ; then
+    echo -n "Install Docker? [Yn]: "
+    read answer
+    if [ "${answer}" == "Y" ] ; then
+      sudo apt install docker-ce docker-ce-cli containerd.io -y
+    fi
+  fi
+fi
+
+# Docker available except when using docker-machine
+if [ -n "$(command -v docker)" ] && [ -z "$(command -v docker-machine)" ] ; then
   ./build.sh
   exit 0
 fi
 
-if [ -z "$(which python3)" ] ; then
-
-  if [ -z "$(which brew)" ] ; then
+# MacOS/Homebrew/Python3
+if [ -z "$(command -v python3)" ] ; then
+  if [ -z "$(command -v brew)" ] ; then
     echo -n "Install Homebrew? [Yn]: "
     read answer
     if [ "${answer}" == "Y" ] ; then

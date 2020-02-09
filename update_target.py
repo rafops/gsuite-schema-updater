@@ -1,12 +1,7 @@
 from __future__ import print_function
-import pickle
-import os.path
-from googleapiclient.discovery import build
-from pprint import pprint
-import json
-
-# from oauth2client.service_account import ServiceAccountCredentials
 from google.oauth2.service_account import Credentials
+from googleapiclient.discovery import build
+import json
 
 
 # If modifying these scopes, delete the file token.pickle.
@@ -16,59 +11,59 @@ SCOPES = ['https://www.googleapis.com/auth/admin.directory.user']
 def main():
     # Configuration
     adminUser = None
-    customAttr = {}
+    schemas = {}
     targetUsers = []
     with open('config.json') as f:
         config = json.load(f)
         if 'adminUser' in config:
             adminUser = config['adminUser']
-        if 'customAttr' in config:
-            customAttr = config['customAttr']
+        if 'schemas' in config:
+            schemas = config['schemas']
         if 'targetUsers' in config:
             targetUsers = config['targetUsers']
 
-    creds = Credentials.from_service_account_file(
+    # Credentials
+    credentials = Credentials.from_service_account_file(
         'credentials.json',
         subject=adminUser,
         scopes=SCOPES)
 
-    service = build('admin', 'directory_v1', credentials=creds)
+    # Service
+    service = build('admin', 'directory_v1', credentials=credentials)
 
-    # Call the Admin SDK Directory API
-    print('Getting users in the domain...')
+    # Users
+    print(u'* Listing users in the domain...')
     results = service.users().list(customer='my_customer', projection='full').execute()
     users = results.get('users', [])
 
     if not users:
-        print('No users in the domain.')
-    else:
-        for user in users:
-            print('=============================================')
-            userEmail = user['primaryEmail']
+        print(u'* No users in the domain.')
 
-            # Skip if not a target
-            if userEmail not in targetUsers:
-                print(u'skipping {0} ({1})'.format(user['primaryEmail'], user['name']['fullName']))
-                continue
+    for user in users:
+        userEmail = user['primaryEmail']
+        print(u'* User is {0} ({1})'.format(user['primaryEmail'], user['name']['fullName']))
 
-            print(u'updating {0} ({1})'.format(user['primaryEmail'], user['name']['fullName']))
+        # Skip if user is not a target
+        if userEmail not in targetUsers:
+            print(u'\t× User is not a target, skipping.')
+            continue
 
-            customSchemas = {}
-            if 'customSchemas' in user:
-                customSchemas = user['customSchemas']
-                print('before:')
-                pprint(user['customSchemas'])
+        # Update if user is a target
+        print(u'\t~ Updating user...')
 
-            category = {}
-            if customAttr['category'] in customSchemas:
-                category = customSchemas[customAttr['category']]
-            category[customAttr['name']] = [{'type': 'work', 'value': customAttr['value']}]
-            customSchemas[customAttr['category']] = category
-            user['customSchemas'] = customSchemas
-            print('after:')
-            pprint(user['customSchemas'])
+        customSchemas = {}
+        if 'customSchemas' in user:
+            customSchemas = user['customSchemas']
+            print(u'\t- {0}'.format(user['customSchemas']))
 
-            service.users().patch(userKey=userEmail, body=user).execute()
+        for category in schemas:
+            if category in customSchemas:
+                customSchemas[category] = schemas[category]
+
+        user['customSchemas'] = customSchemas
+        service.users().patch(userKey=userEmail, body=user).execute()
+
+        print(u'\t+ {0}'.format(user['customSchemas']))
 
 
 if __name__ == '__main__':
