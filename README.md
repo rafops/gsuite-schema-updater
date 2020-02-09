@@ -31,7 +31,7 @@ Install pre-requisites:
 - In the service accounts click Manage service accounts
 - In the entry named schema-updater click View Client ID in Domain wide delegation
 - Take note of the Client ID and click SAVE
-- Go to G Suite domain's [Admin console](http://admin.google.com/)
+- Go to G Suite domain's [Admin console](https://admin.google.com)
 - Click Security
 - Click Advanced settings and Manage API client access
 - On the Client Name set the value as the Client ID previously noted
