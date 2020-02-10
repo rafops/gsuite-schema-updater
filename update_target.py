@@ -57,8 +57,7 @@ def main():
             print(u'\t- {0}'.format(user['customSchemas']))
 
         for category in schemas:
-            if category in customSchemas:
-                customSchemas[category] = schemas[category]
+            customSchemas[category] = schemas[category]
 
         user['customSchemas'] = customSchemas
         service.users().patch(userKey=userEmail, body=user).execute()
