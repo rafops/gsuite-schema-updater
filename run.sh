@@ -10,7 +10,7 @@ if ! [ -f "credentials.json" ] ; then
   exit 1
 fi
 
-if [ -n "$(uname -a | grep "^Linux ubuntu")" ] ; then
+if [ -n "$(command -v docker)" ] && [ -z "$(command -v docker-machine)" ] ; then
   docker run -it --rm -v "$(pwd)/:/root/workdir/" gsuite-schema-updater /root/workdir/run.sh
 elif [ -n "$(command -v python3)" ] ; then
   python3 update_target.py
