@@ -33,7 +33,7 @@ def main():
 
     # Users
     print(u'* Listing users in the domain...')
-    results = service.users().list(customer='my_customer', projection='full').execute()
+    results = service.users().list(customer='my_customer', projection='full', maxResults=500, showDeleted=0).execute()
     users = results.get('users', [])
 
     if not users:
